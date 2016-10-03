@@ -1,4 +1,6 @@
 #use this powershell script to create IDOL services
+#this will create the five basic services if you want it to.
+#I need to check for the base install directory
 function GenerateForm {
 
 [reflection.assembly]::loadwithpartialname("System.Windows.Forms") | Out-Null
