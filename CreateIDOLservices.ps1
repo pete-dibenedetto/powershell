@@ -54,7 +54,28 @@ $handler_button1_Click=
 
     }
 
-    if ($checkBox2.Checked)    {  $listBox1.Items.Add( "Category Service will be created"  ) }
+    if ($checkBox2.Checked)    
+    {  
+    	$listBox1.Items.Add( "Category Service will be created"  )
+    	
+    	$service = "HPE-Category"
+         # Verify if the service already exists, and if yes remove it first
+        if (Get-Service $service -ErrorAction SilentlyContinue)
+        {
+            # using WMI to remove Windows service because PowerShell does not have CmdLet for this
+            $serviceToRemove = Get-WmiObject -Class Win32_Service -Filter "name='$service'"
+
+            $serviceToRemove.delete()
+            Write-Host "Service removed: $service"
+        }
+        
+        Write-Host "Installing service: $service"
+
+        New-Service -name $service -BinaryPathName "C:\HewlettPackardEnterprise\IDOLServer-11.1.0\category\category.exe" -DisplayName "HPE Category" -Description "My Category Service"
+        
+         Write-Host "Installation completed: $service"
+   	    		
+    }
 
     if ($checkBox3.Checked)    {  $listBox1.Items.Add( "Community Service will be created"  ) }
 
