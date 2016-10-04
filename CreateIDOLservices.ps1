@@ -1,6 +1,8 @@
 #use this powershell script to create IDOL services
 #this will create the five basic services if you want it to.
-#I need to check for the base install directory
+#Still need to prompt for base install directory
+#Still need to prompt for service names
+#Still need to pass base intall directory into create step
 function GenerateForm {
 
 [reflection.assembly]::loadwithpartialname("System.Windows.Forms") | Out-Null
@@ -44,13 +46,16 @@ $handler_button1_Click=
 
             $serviceToRemove.delete()
             Write-Host "Service removed: $service"
+            $listBox1.Items.Add( "Old AgenStore Service removed"  ) 
         }
         
         Write-Host "Installing service: $service"
+        $listBox1.Items.Add( "AgenStore Service being installed"  ) 
 
         New-Service -name $service -BinaryPathName "C:\HewlettPackardEnterprise\IDOLServer-11.1.0\agentstore\agentstore.exe" -DisplayName "HPE Agentstore" -Description "My Agentstore Service"
         
          Write-Host "Installation completed: $service"
+         $listBox1.Items.Add( "AgenStore Service installation complete"  ) 
 
     }
 
@@ -77,11 +82,75 @@ $handler_button1_Click=
    	    		
     }
 
-    if ($checkBox3.Checked)    {  $listBox1.Items.Add( "Community Service will be created"  ) }
-
-    if ($checkBox4.Checked)    {  $listBox1.Items.Add( "Content Service will be created"  ) }
+    if ($checkBox3.Checked)    
+    {  
+    	$listBox1.Items.Add( "Community Service will be created"  ) 
     
-    if ($checkBox5.Checked)    {  $listBox1.Items.Add( "View Service will be created"  ) }
+     	$service = "HPE-Community"
+         # Verify if the service already exists, and if yes remove it first
+        if (Get-Service $service -ErrorAction SilentlyContinue)
+        {
+            # using WMI to remove Windows service because PowerShell does not have CmdLet for this
+            $serviceToRemove = Get-WmiObject -Class Win32_Service -Filter "name='$service'"
+
+            $serviceToRemove.delete()
+            Write-Host "Service removed: $service"
+        }
+        
+        Write-Host "Installing service: $service"
+
+        New-Service -name $service -BinaryPathName "C:\HewlettPackardEnterprise\IDOLServer-11.1.0\community\community.exe" -DisplayName "HPE Community" -Description "My Community Service"
+        
+         Write-Host "Installation completed: $service"
+   	            
+    }
+
+    if ($checkBox4.Checked)
+    {  
+    	$listBox1.Items.Add( "Content Service will be created"  ) 
+    
+     	$service = "HPE-Content"
+         # Verify if the service already exists, and if yes remove it first
+        if (Get-Service $service -ErrorAction SilentlyContinue)
+        {
+            # using WMI to remove Windows service because PowerShell does not have CmdLet for this
+            $serviceToRemove = Get-WmiObject -Class Win32_Service -Filter "name='$service'"
+
+            $serviceToRemove.delete()
+            Write-Host "Service removed: $service"
+        }
+        
+        Write-Host "Installing service: $service"
+
+        New-Service -name $service -BinaryPathName "C:\HewlettPackardEnterprise\IDOLServer-11.1.0\content\content.exe" -DisplayName "HPE Content" -Description "My Content Service"
+        
+         Write-Host "Installation completed: $service"
+   	            
+    }
+    
+    if ($checkBox5.Checked)
+    {  
+    	$listBox1.Items.Add( "View Service will be created"  ) 
+    
+     	$service = "HPE-View"
+         # Verify if the service already exists, and if yes remove it first
+        if (Get-Service $service -ErrorAction SilentlyContinue)
+        {
+            # using WMI to remove Windows service because PowerShell does not have CmdLet for this
+            $serviceToRemove = Get-WmiObject -Class Win32_Service -Filter "name='$service'"
+
+            $serviceToRemove.delete()
+            Write-Host "Service removed: $service"
+        }
+        
+        Write-Host "Installing service: $service"
+
+        New-Service -name $service -BinaryPathName "C:\HewlettPackardEnterprise\IDOLServer-11.1.0\view\view.exe" -DisplayName "HPE View" -Description "My View Service"
+        
+         Write-Host "Installation completed: $service"
+   	            
+    }
+
 
 
     if ( !$checkBox1.Checked -and !$checkBox2.Checked -and !$checkBox3.Checked -and !$checkBox4.Checked -and !$checkBox5.Checked ) {   $listBox1.Items.Add("No CheckBox selected....")} 
