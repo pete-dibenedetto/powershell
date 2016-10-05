@@ -24,6 +24,8 @@ $b3= $false
 $b4= $false
 $b5= $false
 
+$prefix = "HPE-"
+
 #----------------------------------------------
 #Generated Event Script Blocks
 #----------------------------------------------
@@ -34,120 +36,171 @@ $handler_button1_Click=
 
     if ($checkBox1.Checked)     
     {
-        $listBox1.Items.Add( "AgenStore Service will be created"  ) 
-
-        $service = "HPE-Agentstore"
+	      $service = "agentstore"
+       
+    		
+    		$fullService = $prefix + $service
+       
+       	loggingFunction $listBox1 $service "processing"
 
         # Verify if the service already exists, and if yes remove it first
-        if (Get-Service $service -ErrorAction SilentlyContinue)
+        if (Get-Service $fullService -ErrorAction SilentlyContinue)
         {
             # using WMI to remove Windows service because PowerShell does not have CmdLet for this
-            $serviceToRemove = Get-WmiObject -Class Win32_Service -Filter "name='$service'"
+            $serviceToRemove = Get-WmiObject -Class Win32_Service -Filter "name='$fullService'"
 
             $serviceToRemove.delete()
-            Write-Host "Service removed: $service"
-            $listBox1.Items.Add( "Old AgenStore Service removed"  ) 
+            #Write-Host "Service removed: $service"
+            
+            loggingFunction $listBox1 $service "removed"
+            #$listBox1.Items.Add( "Old AgenStore Service removed"  ) 
         }
         
-        Write-Host "Installing service: $service"
-        $listBox1.Items.Add( "AgenStore Service being installed"  ) 
+        #Write-Host "Installing service: $service"
+        #$listBox1.Items.Add( "AgenStore Service being installed"  ) 
+        loggingFunction $listBox1 $service "installed"
 
-        New-Service -name $service -BinaryPathName "C:\HewlettPackardEnterprise\IDOLServer-11.1.0\agentstore\agentstore.exe" -DisplayName "HPE Agentstore" -Description "My Agentstore Service"
+        New-Service -name ($prefix + $service) -BinaryPathName ("C:\HewlettPackardEnterprise\IDOLServer-11.1.0\" + $service + "\" + $service + ".exe") -DisplayName ($prefix + $service) -Description ("My " + $service + " Service")
         
-         Write-Host "Installation completed: $service"
-         $listBox1.Items.Add( "AgenStore Service installation complete"  ) 
+        #Write-Host "Installation completed: $service"
+        #$listBox1.Items.Add( "AgenStore Service installation complete"  ) 
+        loggingFunction $listBox1 $service "completed"
 
     }
 
     if ($checkBox2.Checked)    
     {  
-    	$listBox1.Items.Add( "Category Service will be created"  )
     	
-    	$service = "HPE-Category"
-         # Verify if the service already exists, and if yes remove it first
-        if (Get-Service $service -ErrorAction SilentlyContinue)
+    		$service = "category"
+
+    		
+    		$fullService = $prefix + $service
+       
+       	loggingFunction $listBox1 $service "processing"
+
+        # Verify if the service already exists, and if yes remove it first
+        if (Get-Service $fullService -ErrorAction SilentlyContinue)
         {
             # using WMI to remove Windows service because PowerShell does not have CmdLet for this
-            $serviceToRemove = Get-WmiObject -Class Win32_Service -Filter "name='$service'"
+            $serviceToRemove = Get-WmiObject -Class Win32_Service -Filter "name='$fullService'"
 
             $serviceToRemove.delete()
-            Write-Host "Service removed: $service"
+            #Write-Host "Service removed: $service"
+            
+            loggingFunction $listBox1 $service "removed"
+            #$listBox1.Items.Add( "Old AgenStore Service removed"  ) 
         }
         
-        Write-Host "Installing service: $service"
+        #Write-Host "Installing service: $service"
+        #$listBox1.Items.Add( "AgenStore Service being installed"  ) 
+        loggingFunction $listBox1 $service "installed"
 
-        New-Service -name $service -BinaryPathName "C:\HewlettPackardEnterprise\IDOLServer-11.1.0\category\category.exe" -DisplayName "HPE Category" -Description "My Category Service"
+        New-Service -name ($prefix + $service) -BinaryPathName ("C:\HewlettPackardEnterprise\IDOLServer-11.1.0\" + $service + "\" + $service + ".exe") -DisplayName ($prefix + $service) -Description ("My " + $service + " Service")
         
-         Write-Host "Installation completed: $service"
-   	    		
+        #Write-Host "Installation completed: $service"
+        #$listBox1.Items.Add( "AgenStore Service installation complete"  ) 
+        loggingFunction $listBox1 $service "completed"
+  	    		
     }
 
     if ($checkBox3.Checked)    
     {  
-    	$listBox1.Items.Add( "Community Service will be created"  ) 
-    
-     	$service = "HPE-Community"
-         # Verify if the service already exists, and if yes remove it first
-        if (Get-Service $service -ErrorAction SilentlyContinue)
+     		$service = "community"
+    		
+    		$fullService = $prefix + $service
+       
+       	loggingFunction $listBox1 $service "processing"
+
+        # Verify if the service already exists, and if yes remove it first
+        if (Get-Service $fullService -ErrorAction SilentlyContinue)
         {
             # using WMI to remove Windows service because PowerShell does not have CmdLet for this
-            $serviceToRemove = Get-WmiObject -Class Win32_Service -Filter "name='$service'"
+            $serviceToRemove = Get-WmiObject -Class Win32_Service -Filter "name='$fullService'"
 
             $serviceToRemove.delete()
-            Write-Host "Service removed: $service"
+            #Write-Host "Service removed: $service"
+            
+            loggingFunction $listBox1 $service "removed"
+            #$listBox1.Items.Add( "Old AgenStore Service removed"  ) 
         }
         
-        Write-Host "Installing service: $service"
+        #Write-Host "Installing service: $service"
+        #$listBox1.Items.Add( "AgenStore Service being installed"  ) 
+        loggingFunction $listBox1 $service "installed"
 
-        New-Service -name $service -BinaryPathName "C:\HewlettPackardEnterprise\IDOLServer-11.1.0\community\community.exe" -DisplayName "HPE Community" -Description "My Community Service"
+        New-Service -name ($prefix + $service) -BinaryPathName ("C:\HewlettPackardEnterprise\IDOLServer-11.1.0\" + $service + "\" + $service + ".exe") -DisplayName ($prefix + $service) -Description ("My " + $service + " Service")
         
-         Write-Host "Installation completed: $service"
-   	            
+        #Write-Host "Installation completed: $service"
+        #$listBox1.Items.Add( "AgenStore Service installation complete"  ) 
+        loggingFunction $listBox1 $service "completed"
+  	 	            
     }
 
     if ($checkBox4.Checked)
     {  
-    	$listBox1.Items.Add( "Content Service will be created"  ) 
-    
-     	$service = "HPE-Content"
-         # Verify if the service already exists, and if yes remove it first
-        if (Get-Service $service -ErrorAction SilentlyContinue)
+    		$service = "content"
+
+    		
+    		$fullService = $prefix + $service
+       
+       	loggingFunction $listBox1 $fullService "processing"
+
+        # Verify if the service already exists, and if yes remove it first
+        if (Get-Service $fullService -ErrorAction SilentlyContinue)
         {
             # using WMI to remove Windows service because PowerShell does not have CmdLet for this
-            $serviceToRemove = Get-WmiObject -Class Win32_Service -Filter "name='$service'"
+            $serviceToRemove = Get-WmiObject -Class Win32_Service -Filter "name='$fullService'"
 
             $serviceToRemove.delete()
-            Write-Host "Service removed: $service"
+            #Write-Host "Service removed: $service"
+            
+            loggingFunction $listBox1 $service "removed"
+            #$listBox1.Items.Add( "Old AgenStore Service removed"  ) 
         }
         
-        Write-Host "Installing service: $service"
+        #Write-Host "Installing service: $service"
+        #$listBox1.Items.Add( "AgenStore Service being installed"  ) 
+        loggingFunction $listBox1 $service "installed"
 
-        New-Service -name $service -BinaryPathName "C:\HewlettPackardEnterprise\IDOLServer-11.1.0\content\content.exe" -DisplayName "HPE Content" -Description "My Content Service"
+        New-Service -name ($prefix + $service) -BinaryPathName ("C:\HewlettPackardEnterprise\IDOLServer-11.1.0\" + $service + "\" + $service + ".exe") -DisplayName ($prefix + $service) -Description ("My " + $service + " Service")
         
-         Write-Host "Installation completed: $service"
+        #Write-Host "Installation completed: $service"
+        #$listBox1.Items.Add( "AgenStore Service installation complete"  ) 
+        loggingFunction $listBox1 $service "completed"
    	            
     }
     
     if ($checkBox5.Checked)
     {  
-    	$listBox1.Items.Add( "View Service will be created"  ) 
-    
-     	$service = "HPE-View"
-         # Verify if the service already exists, and if yes remove it first
-        if (Get-Service $service -ErrorAction SilentlyContinue)
+    		$service = "view"
+
+    		
+    		$fullService = $prefix + $service
+       
+       	loggingFunction $listBox1 $fullService "processing"
+
+        # Verify if the service already exists, and if yes remove it first
+        if (Get-Service $fullService -ErrorAction SilentlyContinue)
         {
             # using WMI to remove Windows service because PowerShell does not have CmdLet for this
-            $serviceToRemove = Get-WmiObject -Class Win32_Service -Filter "name='$service'"
+            $serviceToRemove = Get-WmiObject -Class Win32_Service -Filter "name='$fullService'"
 
             $serviceToRemove.delete()
-            Write-Host "Service removed: $service"
+            #Write-Host "Service removed: $service"
+            
+            loggingFunction $listBox1 $service "removed"
+            #$listBox1.Items.Add( "Old AgenStore Service removed"  ) 
         }
         
-        Write-Host "Installing service: $service"
+        #Write-Host "Installing service: $service"
+        #$listBox1.Items.Add( "AgenStore Service being installed"  ) 
+        loggingFunction $listBox1 $service "installed"
 
-        New-Service -name $service -BinaryPathName "C:\HewlettPackardEnterprise\IDOLServer-11.1.0\view\view.exe" -DisplayName "HPE View" -Description "My View Service"
+        New-Service -name ($prefix + $service) -BinaryPathName ("C:\HewlettPackardEnterprise\IDOLServer-11.1.0\" + $service + "\" + $service + ".exe") -DisplayName ($prefix + $service) -Description ("My " + $service + " Service")
         
-         Write-Host "Installation completed: $service"
+        #Write-Host "Installation completed: $service"
+        #$listBox1.Items.Add( "AgenStore Service installation complete"  ) 
+        loggingFunction $listBox1 $service "completed"
    	            
     }
 
@@ -192,7 +245,7 @@ $form1.Controls.Add($button1)
 
 $listBox1.FormattingEnabled = $True
 $System_Drawing_Size = New-Object System.Drawing.Size
-$System_Drawing_Size.Width = 301
+$System_Drawing_Size.Width = 400
 $System_Drawing_Size.Height = 260
 $listBox1.Size = $System_Drawing_Size
 $listBox1.DataBindings.DefaultDataSourceUpdateMode = 0
@@ -299,6 +352,42 @@ $form1.add_Load($OnLoadForm_StateCorrection)
 $form1.ShowDialog()| Out-Null
 
 } #End Function
+
+function loggingFunction ($formName,$serviceNam,$action) {
+	
+	#loggingFunction $service "removed"
+	#Write-Host "$serviceNam $action"
+  #$listBox1.Items.Add("$serviceNam $action") 
+  
+  if ($action -eq "processing")
+  {
+
+			$listBox1.Items.Add("The service: $serviceNam is being $action") 
+	
+  	
+  }
+  
+  if ($action -eq "removed")
+  {
+  	
+  	$listBox1.Items.Add("The existing service: $serviceNam has been $action") 
+  
+	}
+
+	if ($action -eq "installed")
+  {
+  	
+  	$listBox1.Items.Add("The service: $serviceNam is now being $action") 
+  
+	}
+	  
+	if ($action -eq "completed")
+  {
+  	
+  	$listBox1.Items.Add("The new service: $serviceNam has been successfully installed") 
+  
+	}
+}
 
 #Call the Function
 GenerateForm
